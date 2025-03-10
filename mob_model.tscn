@@ -1,0 +1,13 @@
+[gd_scene load_steps=5 format=3 uid="uid://c0hilalm0goto"]
+
+[ext_resource type="PackedScene" uid="uid://csrjh5rs2utbs" path="res://art/mob.glb" id="1_3h0sq"]
+[ext_resource type="Material" path="res://art/mob_eye.material" id="2_60hio"]
+[ext_resource type="Material" uid="uid://b2d3308n5x813" path="res://art/mob_body.material" id="2_xieqf"]
+[ext_resource type="Material" path="res://art/pupil.material" id="4_atc5t"]
+
+[node name="mob" instance=ExtResource("1_3h0sq")]
+
+[node name="Sphere" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_60hio")
+surface_material_override/1 = ExtResource("2_xieqf")
+surface_material_override/2 = ExtResource("4_atc5t")

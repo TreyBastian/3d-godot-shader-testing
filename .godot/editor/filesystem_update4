@@ -8,3 +8,6 @@ res://mob.tscn
 res://main.gd
 res://score_label.gd
 res://float.res
+res://art/mob_body.material
+res://mob_model.tscn
+res://mob_model.gdshader
