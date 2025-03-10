@@ -1,0 +1,10 @@
+res://art/body.material
+res://default_env.tres
+res://main.tscn
+res://player.tscn
+res://player.gd
+res://mob.gd
+res://mob.tscn
+res://main.gd
+res://score_label.gd
+res://float.res
