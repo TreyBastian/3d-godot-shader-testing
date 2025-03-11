@@ -1,0 +1,85 @@
+[gd_scene load_steps=11 format=3 uid="uid://bepi8bqboy0ai"]
+
+[ext_resource type="PackedScene" uid="uid://d0kn7x2xmym8x" path="res://monkey.blend" id="3_8td8v"]
+[ext_resource type="PackedScene" uid="uid://br2npnqoe2jjw" path="res://player.tscn" id="3_54ppg"]
+[ext_resource type="PackedScene" uid="uid://vv0n825ywfk3" path="res://fence.tscn" id="3_qiciq"]
+[ext_resource type="Shader" uid="uid://c1yx41tlb36ku" path="res://mob_model.gdshader" id="4_iaol4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
+albedo_color = Color(0.984712, 0.766194, 0.875441, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7mycd"]
+size = Vector2(60, 60)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_272bh"]
+render_priority = 0
+shader = ExtResource("4_iaol4")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 0.4
+shader_parameter/highlight_strength = 0.1
+shader_parameter/highlight_color = Color(0.960784, 1, 0.839216, 1)
+shader_parameter/shadow_color = Color(0.0509804, 0.00784314, 0.0901961, 1)
+
+[sub_resource type="Environment" id="Environment_7mycd"]
+background_color = Color(0.513726, 0.737255, 0.956863, 1)
+ambient_light_sky_contribution = 0.17
+tonemap_mode = 2
+
+[node name="Main" type="Node"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_7dm0k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_ig7tw")
+surface_material_override/0 = SubResource("StandardMaterial3D_7mycd")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0, 19, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("3_54ppg")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1, 0)
+
+[node name="CameraPivot" type="Marker3D" parent="Player"]
+transform = Transform3D(2, 0, 0, 0, 0.601412, 1.90743, 0, -1.90743, 0.601412, 0, -2, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19)
+projection = 1
+current = true
+size = 19.0
+near = 0.001
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/CameraPivot/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -0.214735, -0.976672, 0, 0.976672, -0.214735, 0, 0, -8)
+visible = false
+mesh = SubResource("PlaneMesh_7mycd")
+surface_material_override/0 = SubResource("ShaderMaterial_272bh")
+
+[node name="fence" parent="." instance=ExtResource("3_qiciq")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2, 0, -2)
+
+[node name="fence2" parent="." instance=ExtResource("3_qiciq")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1, 0, -2)
+
+[node name="fence3" parent="." instance=ExtResource("3_qiciq")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1, 0, -2)
+
+[node name="monkey" parent="." instance=ExtResource("3_8td8v")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 3, 0, -5)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7mycd")

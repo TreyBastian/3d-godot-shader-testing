@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://vv0n825ywfk3"]
+
+[ext_resource type="PackedScene" uid="uid://ds7r0gabxhfj1" path="res://fence.blend" id="1_5gl7b"]
+[ext_resource type="Material" uid="uid://0ccgbhkp0myh" path="res://wood.tres" id="2_vm2af"]
+
+[node name="fence" instance=ExtResource("1_5gl7b")]
+
+[node name="Fence Post" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_vm2af")
+
+[node name="Fence Panel Bottom" parent="." index="1"]
+surface_material_override/0 = ExtResource("2_vm2af")
+
+[node name="Fence Panel Top" parent="." index="2"]
+surface_material_override/0 = ExtResource("2_vm2af")

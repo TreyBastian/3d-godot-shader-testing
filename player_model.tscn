@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://che064wmwjege"]
+
+[ext_resource type="PackedScene" uid="uid://cbc0h2cmmve1r" path="res://art/player.glb" id="1_qge56"]
+[ext_resource type="Material" uid="uid://bok0oifrb2dq1" path="res://art/body.material" id="2_yqb6h"]
+[ext_resource type="Material" path="res://art/eye.material" id="3_rf0w2"]
+
+[node name="player" instance=ExtResource("1_qge56")]
+
+[node name="Sphere_001" parent="." index="0"]
+surface_material_override/1 = ExtResource("2_yqb6h")
+surface_material_override/2 = ExtResource("3_rf0w2")

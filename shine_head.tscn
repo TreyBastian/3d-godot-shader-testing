@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://wcjdb4eiy52q"]
+
+[ext_resource type="PackedScene" uid="uid://dkcpxusowf56m" path="res://Shine.blend" id="1_5xtjs"]
+[ext_resource type="Material" uid="uid://b1elle27fmt5i" path="res://shine_head.tres" id="2_yltj7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5xtjs"]
+albedo_color = Color(0.960784, 1, 0.839216, 1)
+emission_enabled = true
+emission = Color(0.960784, 1, 0.839216, 1)
+
+[node name="Shine" instance=ExtResource("1_5xtjs")]
+
+[node name="Head" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_yltj7")
+surface_material_override/1 = SubResource("StandardMaterial3D_5xtjs")

@@ -1,16 +1,34 @@
-[gd_scene load_steps=12 format=3 uid="uid://bwxktcp553i2f"]
+[gd_scene load_steps=20 format=3 uid="uid://bwxktcp553i2f"]
 
 [ext_resource type="Script" uid="uid://dx2xjj0ughvn7" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://br2npnqoe2jjw" path="res://player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dsuhu0yvlvpya" path="res://mob.tscn" id="2_1bvp3"]
 [ext_resource type="FontFile" uid="uid://dadp8tewqxem0" path="res://fonts/Montserrat-Medium.ttf" id="4_1bvp3"]
+[ext_resource type="Shader" uid="uid://c1yx41tlb36ku" path="res://mob_model.gdshader" id="4_7mycd"]
 [ext_resource type="Script" uid="uid://cwut323s6gts0" path="res://score_label.gd" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://dkcpxusowf56m" path="res://Shine.blend" id="7_272bh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
 size = Vector3(60, 2, 60)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
 size = Vector3(60, 2, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
+albedo_color = Color(0.0509804, 0.00784314, 0.0901961, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7mycd"]
+size = Vector2(60, 60)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_272bh"]
+render_priority = 0
+shader = ExtResource("4_7mycd")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 0.4
+shader_parameter/highlight_strength = 0.1
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ig7tw"]
 albedo_color = Color(1, 0.0705882, 1, 1)
@@ -31,6 +49,25 @@ default_font = ExtResource("4_1bvp3")
 default_font_size = 22
 Label/fonts/font = ExtResource("4_1bvp3")
 
+[sub_resource type="Environment" id="Environment_7mycd"]
+background_mode = 1
+background_color = Color(0.513726, 0.737255, 0.956863, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.866667, 1, 0.898039, 1)
+ambient_light_sky_contribution = 0.17
+tonemap_mode = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_7mycd"]
+size = Vector3(5, 5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
+albedo_color = Color(0.784117, 0.487968, 0.916712, 1)
+emission_enabled = true
+emission = Color(0, 0.819608, 0, 1)
+emission_energy_multiplier = 6.33
+emission_operator = 1
+emission_on_uv2 = true
+
 [node name="Main" type="Node"]
 script = ExtResource("1_h2yge")
 mob_scene = ExtResource("2_1bvp3")
@@ -45,21 +82,30 @@ shape = SubResource("BoxShape3D_7dm0k")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("BoxMesh_ig7tw")
+surface_material_override/0 = SubResource("StandardMaterial3D_7mycd")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0, 19, 0)
+transform = Transform3D(-4.37114e-08, 0.64679, -0.762668, 0, 0.762668, 0.64679, 1, 2.82721e-08, -3.33373e-08, 0, 19, 0)
 shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.032
 
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
 
-[node name="CameraPivot" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.0871558, 0.996195, 0, -0.996195, 0.0871558, 0, 0, 0)
+[node name="CameraPivot" type="Marker3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866026, 0, -0.866026, 0.5, 0, 0, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19)
 projection = 1
-size = 19.0
-far = 100.0
+current = true
+size = 40.0
+near = 0.001
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/CameraPivot/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -0.214735, -0.976672, 0, 0.976672, -0.214735, 0, 0, -8)
+mesh = SubResource("PlaneMesh_7mycd")
+surface_material_override/0 = SubResource("ShaderMaterial_272bh")
 
 [node name="Cylinders" type="Node3D" parent="."]
 
@@ -115,6 +161,16 @@ theme_type_variation = &"GraphFrameTitleLabel"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Score: 0"
 script = ExtResource("5_lquwl")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7mycd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 2, -5)
+mesh = SubResource("BoxMesh_7mycd")
+surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
+
+[node name="Shine" parent="." instance=ExtResource("7_272bh")]
 
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
